@@ -1,0 +1,29 @@
+---
+- name: Copy zk_tar_gz to client
+  unarchive: src=/etc/ansible/package/hbase-1.1.7-bin.tar.gz  dest={{base_path}} owner=root group=root
+  when: status == 'install'
+
+
+- name: Configure hbase frofile
+  shell: /bin/echo {{ item }} | sudo tee -a /etc/profile
+  with_items:
+   - export HBASE_HOME={{hbase_home}}
+   - export PATH=\$HBASE_HOME/bin:\$PATH
+
+- name: Setup core-site.xml
+  template: dest="{{hbase_home}}/conf" src=core-site.xml owner=root group=root
+
+- name: Setup hbase-env.sh
+  template: dest="{{hbase_home}}/conf" src=hbase-env.sh owner=root group=root
+
+- name: Setup hbase-site.xml
+  template: dest="{{hbase_home}}/conf" src=hbase-site.xml owner=root group=root
+
+- name: Setup hdfs-site.xml
+  template: dest="{{hbase_home}}/conf" src=hdfs-site.xml owner=root group=root
+
+- name: Setup regionservers
+  template: dest="{{hbase_home}}/conf" src=regionservers owner=root group=root
+
+
+

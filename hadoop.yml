@@ -1,0 +1,29 @@
+---
+#注意要修改slaves模板对应的hosts name 默认为hadoop分组
+#首次安装status值为install 后面修改配置文件时为空值即可
+#rm1_ip,rm2_ip一般为NameNode1,NameNode2节点ip
+
+- hosts: hadoop
+  remote_user: root
+  vars: 
+     - javapath: "/usr/local/java/"
+     - base_path: "/data/app"
+     - hadoop_home: "/data/app/hadoop-2.7.4"
+     - zookeeper_host_1: "hbase00"
+     - zookeeper_host_2: "hbase01"
+     - zookeeper_host_3: "hbase02"
+
+     - NameNode1: "hbase00"
+     - NameNode2: "hbase01"
+     - ResourceManager1: "hbase01"
+     - ResourceManager2: "hbase02"
+     - JournalNode1: "hbase00"
+     - JournalNode2: "hbase01"
+     - JournalNode3: "hbase02"
+
+     - HistoryServer: "hbase01"
+     - cpu: "3"
+
+     - status: "install"
+  roles:
+     - hadoop

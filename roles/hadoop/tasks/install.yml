@@ -1,0 +1,67 @@
+---
+- name: Copy hadoop_tar_gz to client
+  unarchive: src=/etc/ansible/package/hadoop-2.7.4.tar.gz  dest={{base_path}} owner=root group=root
+
+- name: Configure hadoop&spark frofile
+  shell: /bin/echo {{ item }} | sudo tee -a /etc/profile
+  with_items:
+   - export HADOOP_HOME={{hadoop_home}}
+   - export HADOOP_BIN={{hadoop_home}}/bin
+   - export SPARK_HOME=/home/hadoop/spark-1.6.3
+   - export PATH=\$JAVA_HOME/bin:\$JAVA_HOME/jre/bin:\$HADOOP_HOME/bin:\$SPARK_HOME/sbin:\$SPARK_HOME/bin:\$PATH
+
+- name: Configure core-site.xml
+  template: dest="{{hadoop_home}}/etc/hadoop" src=core-site.xml owner=root group=root
+
+- name: Configure hdfs-site.xml
+  template: dest="{{hadoop_home}}/etc/hadoop" src=hdfs-site.xml owner=root group=root
+
+- name: Configure slaves
+  template: dest="{{hadoop_home}}/etc/hadoop" src=slaves owner=root group=root
+
+- name: Configure yarn-site.xml
+  template: dest="{{hadoop_home}}/etc/hadoop" src=yarn-site.xml owner=root group=root
+
+- name: Configure mapred-site.xml
+  template: dest="{{hadoop_home}}/etc/hadoop" src=mapred-site.xml owner=root group=root
+
+- name: Configure  hadoop-env.sh
+  template: dest="{{hadoop_home}}/etc/hadoop" src=hadoop-env.sh owner=root group=root
+
+- name: Configure yarn-env.sh
+  template: dest="{{hadoop_home}}/etc/hadoop" src=yarn-env.sh owner=root group=root
+
+- name: copy hadoop-init.sh
+  template: dest="{{hadoop_home}}/sbin/hadoop-init.sh" src=hadoop-init.sh.j2 owner=root group=root mode=0755
+
+#- name: init hadoop
+#  shell: nohub {{hadoop_home}}/sbin/hadoop-init.sh & 
+#  when: "hadoop_type_of_node == 'master1'"
+
+#- name: formatZK
+#  action: shell nohub {{hadoop_home}}/bin/hdfs zkfc -formatZK &
+#  when: "hadoop_type_of_node == 'master1'"
+
+#- name: start journalnode
+#  action: shell nohub {{hadoop_home}}/sbin/hadoop-daemons.sh start journalnode &
+#  when: "hadoop_type_of_node == 'master1'"
+
+#- name: format namenode1
+#  action: shell nohub {{hadoop_home}}/bin/hdfs namenode -format &
+#  when: "hadoop_type_of_node == 'master1'"
+
+#- name: start namenode1
+#  action: shell nohub {{hadoop_home}}/sbin/hadoop-daemon.sh start namenode &
+#  when: "hadoop_type_of_node == 'master1'"
+
+#- name: 同步 NameNode1 元数据到 NameNode2
+#  action: shell nohub {{hadoop_home}}/bin/hdfs namenode -bootstrapStandby &
+#  when: "hadoop_type_of_node == 'master2'"
+
+#- name: 执行hadoop-init 脚本
+#  action: shell nohub {{hadoop_home}}/sbin/hadoop-init.sh &
+#  when: "hadoop_type_of_node == 'master1'"
+
+#- name: 启动hadoop集群服务，请检查集群状态是否正常！
+#  action: shell {{hadoop_home}}/sbin/start-all.sh
+#  when: "hadoop_type_of_node == 'master1'"

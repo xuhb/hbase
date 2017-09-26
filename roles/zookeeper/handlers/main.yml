@@ -1,0 +1,3 @@
+---
+- name: restart zookeeper
+  action: shell {{zookeeper_dir}}/bin/stop.sh;{{zookeeper_dir}}/bin/start.sh

@@ -1,0 +1,34 @@
+---
+- name: Copy zk_tar_gz to client
+  unarchive: src=/etc/ansible/package/zookeeper-3.4.6.tar.gz  dest=/data/app owner=root group=root
+  when: status == 'install'
+
+- name: mkdir
+  file: path={{zookeeper_dir}}/data state=directory owner=root group=root
+
+- name: Setup myid
+  template: dest="{{zookeeper_dir}}/data/myid" src=myid.j2 owner=root group=root
+
+- name: copy start.sh
+  template: dest="{{zookeeper_dir}}/bin" src=start.sh owner=root group=root mode=0755
+
+- name: copy stop.sh
+  template: dest="{{zookeeper_dir}}/bin" src=stop.sh owner=root group=root mode=0755
+
+- name: Setup zoo.cfg
+  template: dest="{{zookeeper_dir}}/conf/zoo.cfg" src=zoo.cfg.j2 owner=root group=root
+  notify:
+   - restart zookeeper
+
+
+#- name: Setup Apache ZooKeeper service
+#  template: dest="/etc/init.d/zookeeper" src=zookeeper mode=0755 owner=root group=root
+#  register: zookeeper_service
+
+#- name: chkconfig zookeeper
+#  command: chkconfig --add /etc/init.d/zookeeper
+#  when: zookeeper_service | changed
+
+#- name: restart zookeeper
+#  command: /etc/init.d/zookeeper restart
+

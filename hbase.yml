@@ -1,0 +1,16 @@
+---
+
+- hosts: hbase
+  remote_user: root
+  vars: 
+     - javapath: "/usr/local/java/"
+     - base_path: "/data/app"
+     - hbase_home: "/data/app/hbase-1.1.7"
+     - zookeeper_host_1: "hbase00"
+     - zookeeper_host_2: "hbase01"
+     - zookeeper_host_3: "hbase02"
+
+
+     - status: "install"
+  roles:
+     - hbase
