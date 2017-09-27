@@ -1,6 +1,6 @@
 ---
 - name: Copy hadoop_tar_gz to client
-  unarchive: src=/etc/ansible/package/hadoop-2.7.4.tar.gz  dest={{base_path}} owner=root group=root
+  unarchive: src={{package}}  dest={{base_path}} owner=root group=root
 
 - name: Configure hadoop&spark frofile
   shell: /bin/echo {{ item }} | sudo tee -a /etc/profile

@@ -1,6 +1,6 @@
 ---
 - name: Copy zk_tar_gz to client
-  unarchive: src=/etc/ansible/package/zookeeper-3.4.6.tar.gz  dest=/data/app owner=root group=root
+  unarchive: src={{package}}  dest={{base_path}} owner=root group=root
   when: status == 'install'
 
 - name: mkdir

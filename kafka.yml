@@ -1,0 +1,15 @@
+#首次安装status值为install 后面修改配置文件时为空值即可
+---
+- hosts: kafka
+  remote_user: root
+  vars:
+     - package: "/etc/ansible/package/kafka_2.10-0.9.0.1.tgz"
+     - base_path: "/data/app"
+     - kafka_home: "/data/app/kafka_2.10-0.9.0.1"
+     - zk_ip_1: "hbase00"
+     - zk_ip_2: "hbase01"
+     - zk_ip_3: "hbase02"
+     - status: "install"
+
+  roles:
+     - kafka

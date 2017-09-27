@@ -7,6 +7,7 @@
   remote_user: root
   vars: 
      - javapath: "/usr/local/java/"
+     - package: "/etc/ansible/package/hadoop-2.7.4.tar.gz"
      - base_path: "/data/app"
      - hadoop_home: "/data/app/hadoop-2.7.4"
      - zookeeper_host_1: "hbase00"

@@ -1,0 +1,15 @@
+---
+- name: Copy storm_tar_gz to client
+  unarchive: src={{package}}  dest={{base_path}} owner=root group=root
+  when: status == 'install'
+
+
+- name: Configure storm frofile
+  shell: /bin/echo {{ item }} | sudo tee -a /etc/profile
+  with_items:
+   - export STORM_HOME={{storm_home}}
+   - export PATH=\$STORM_HOME/bin:\$PATH
+
+- name: Setup storm.yaml
+  template: dest="{{storm_home}}/conf" src=storm.yaml owner=root group=root
+

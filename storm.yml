@@ -1,17 +1,17 @@
 ---
 
-- hosts: hbase
+- hosts: storm
   remote_user: root
   vars: 
      - javapath: "/usr/local/java/"
      - base_path: "/data/app"
-     - package: "/etc/ansible/package/hbase-1.1.7-bin.tar.gz"
-     - hbase_home: "/data/app/hbase-1.1.7"
+     - package: "/etc/ansible/package/apache-storm-1.0.1.tar.gz"
+     - storm_home: "/data/app/apache-storm-1.0.1"
+     - storm_data_dir: "/data/app/storm/data"
+     - nimbus_seeds: "hbase00"
      - zookeeper_host_1: "hbase00"
      - zookeeper_host_2: "hbase01"
      - zookeeper_host_3: "hbase02"
-
-
      - status: "install"
   roles:
-     - hbase
+     - storm
